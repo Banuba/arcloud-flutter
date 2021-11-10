@@ -1,0 +1,46 @@
+group 'com.banuba.sdk.flutter.arcloud'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext {
+        buildGradleVersion = '4.1.1'
+        kotlinVersion = '1.3.50'
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:$buildGradleVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+  compileSdkVersion 29
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+  defaultConfig {
+    minSdkVersion 23
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+  }
+  lintOptions {
+    disable 'InvalidPackage'
+  }
+  dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  }
+}
