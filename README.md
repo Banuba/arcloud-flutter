@@ -1,4 +1,4 @@
-# ads
+# banuba_arcloud
 
 Banuba flutter plugin to work with ARCloud.
 
