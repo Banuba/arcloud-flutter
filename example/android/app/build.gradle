@@ -47,7 +47,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.banuba.sdk.flutter.arcloud.example"
+        applicationId "com.banuba.sdk.arcloud.example"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
@@ -61,6 +61,16 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    // Add client_token sources shared across example projects.
+    // You may just move the BanubaClientToken.kt in your app, if such sharing is not neccessary.
+    sourceSets {
+        main {
+            java {
+                srcDir '../client_token'
+            }
+        }
+    }
 }
 
 flutter {
@@ -69,4 +79,10 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation "io.insert-koin:koin-core:$koinVersion"
+    implementation "io.insert-koin:koin-android:$koinVersion"
+
+    // Banuba SDK dependencies
+    compileOnly fileTree(dir: '../libs', include: ['*.aar'])
+    implementation 'com.banuba.sdk:ar-cloud:1.19.0'
 }
