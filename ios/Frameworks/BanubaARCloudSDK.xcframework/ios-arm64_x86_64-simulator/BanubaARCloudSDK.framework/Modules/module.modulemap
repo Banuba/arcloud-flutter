@@ -1,0 +1,11 @@
+framework module BanubaARCloudSDK {
+  umbrella header "BanubaARCloudSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module BanubaARCloudSDK.Swift {
+    header "BanubaARCloudSDK-Swift.h"
+    requires objc
+}
