@@ -15,7 +15,7 @@ class ArEffect {
   final int id;
   final String name;
   final String? preview;
-  final int typeId;
+  final int? typeId;
   final String uri;
   final bool isDownloaded;
 
