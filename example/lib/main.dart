@@ -40,7 +40,10 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     _listenEffects();
     super.initState();
-    _arcloudPlugin.init();
+    _arcloudPlugin.init(
+      arCloudUrl:
+          'https://api.staging.arcloud.banuba.net/v1/effects/qa_2e944a7f-d229-4abc-85e8-57afe4d6406a',
+    );
   }
 
   @override

@@ -1,6 +1,6 @@
 name: banuba_arcloud
 description: Banuba plugin for ARCloud.
-version: 0.0.2
+version: 0.0.3
 homepage: 'https://docs.banuba.com/'
 
 environment:

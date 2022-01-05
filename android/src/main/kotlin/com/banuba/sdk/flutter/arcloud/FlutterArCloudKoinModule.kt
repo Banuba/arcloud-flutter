@@ -15,6 +15,10 @@ class FlutterArCloudKoinModule {
                 ioDispatcher = get(named("ioDispatcher"))
             ).provide()
         }
+        
+        single(named("arEffectsCloudUrl"), override = true) {
+            ArCloudUrlHolder.url
+        }   
     }
 
     val modules: List<Module> by lazy {

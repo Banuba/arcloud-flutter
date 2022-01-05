@@ -12,7 +12,7 @@ To use this plugin, add `banuba_arcloud` as a dependency in your pubspec.yaml fi
 banuba_arcloud:
   git:
     url: git@bitbucket.org:BanubaLimited/arcloud-flutter.git
-    ref: 0.0.1
+    ref: 0.0.3
 ```
 
 Now in your `Dart` code, you can use:
@@ -27,54 +27,13 @@ import 'package:banuba_arcloud/banuba_arcloud.dart';
 
 ### Android
 
-1. Copy Banuba credentials into your project level `build.gradle` to access Banuba SDK modules:
+1. Copy dependencies into your app module level `build.gradle`:
 
 ```groovy
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-
-        def banubaRepoUser = "Banuba"
-        def banubaRepoPassword = "\u0038\u0036\u0032\u0037\u0063\u0035\u0031\u0030\u0033\u0034\u0032\u0063\u0061\u0033\u0065\u0061\u0031\u0032\u0034\u0064\u0065\u0066\u0039\u0062\u0034\u0030\u0063\u0063\u0037\u0039\u0038\u0063\u0038\u0038\u0066\u0034\u0031\u0032\u0061\u0038"
-        maven {
-            name = "ARCloudPackages"
-            url = uri("https://maven.pkg.github.com/Banuba/banuba-ar")
-            credentials {
-                username = banubaRepoUser
-                password = banubaRepoPassword
-            }
-        }
-    }
-}
-```
-
-2. Copy dependencies into your app module level `build.gradle`:
-
-```groovy
-compileOnly fileTree(dir: '../libs', include: ['*.aar'])
 implementation 'com.banuba.sdk:ar-cloud:1.19.0'
 ```
 
-3. Copy and Paste your AR Cloud URL into appropriate section of `BanubaClientToken`:
-
-```kotlin
-internal const val BANUBA_AR_CLOUD_URL: String = <Place your url here>
-```
-
-4. The plugin uses Koin, you need to implement it to your application. Create a module where arcloud url is initialized:
-
-```kotlin
-class MainKoinModule {
-    val module = module {
-        single(named("arEffectsCloudUrl"), override = true) {
-            BANUBA_AR_CLOUD_URL
-        }
-    }
-}
-```
-
-5. Add `FlutterArCloudKoinModule()` with your custom modules when initializing Koin:
+2. Add `FlutterArCloudKoinModule()` with your custom modules when initializing Koin:
 
 ```kotlin
 class App : Application() {
@@ -98,13 +57,7 @@ More [information](https://docs.banuba.com/face-ar-sdk/android/android_overview)
 
 ### iOS
 
-1. `AppDelegate` must implement `ARCloudPluginDelegate` to specify the arcloud url:
-
-```xml
-@UIApplicationMain
-@objc class AppDelegate: FlutterAppDelegate, ARCloudPluginDelegate {
-    var arCloudURL: String = <Place your url here>
-```
+No special setup needed.
 
 More [information](https://docs.banuba.com/face-ar-sdk/ios/ios_overview) about Banuba iOS sdk.
 
@@ -118,10 +71,14 @@ Use `BanubaArcloudPlugin` to work with the plugin:
 final _arcloudPlugin = BanubaArcloudPlugin();
 ```
 
-Don't forget to call methods to initialize and close resources:
+Before you start using plugin you should provide your `arCloudUrl` to `init()` function:
 
-```yaml
-_arcloudPlugin.init();
+```
+_arcloudPlugin.init(arCloudUrl: 'https://example.com');
+```
+Don't forget to dispose plugin:
+
+```
 _arcloudPlugin.dispose();
 ```
 

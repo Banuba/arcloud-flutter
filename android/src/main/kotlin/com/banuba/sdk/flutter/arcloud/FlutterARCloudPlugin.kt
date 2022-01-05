@@ -26,8 +26,10 @@ class FlutterARCloudPlugin : FlutterPlugin, ActivityAware, KoinComponent {
         private const val METHOD_GET_EFFECTS = "get_effects"
         private const val METHOD_DOWNLOAD_EFFECT = "download_effect"
         private const val METHOD_EFFECTS_LOADED = "effects_loaded"
+        private const val METHOD_ARCLOUD_URL = "ar_cloud_url"
 
         private const val PARAM_EFFECT_NAME = "effect_name"
+        private const val PARAM_ARCLOUD_URL = "arCloudUrl"
 
         private const val ERROR_CODE_GET_EFFECTS = "error_get_effects"
         private const val ERROR_CODE_DOWNLOAD_EFFECT = "error_download_effect"
@@ -81,10 +83,19 @@ class FlutterARCloudPlugin : FlutterPlugin, ActivityAware, KoinComponent {
             METHOD_DOWNLOAD_EFFECT -> {
                 onDownloadEffectCall(call, result)
             }
+            METHOD_ARCLOUD_URL -> {
+                onArCloudUrlCall(call, result)
+            }
             else -> {
                 result.notImplemented()
             }
         }
+    }
+
+    private fun onArCloudUrlCall(call: MethodCall, result: MethodChannel.Result) {
+        val arCloudURL = call.obtainArgument<String>(PARAM_ARCLOUD_URL)
+        ArCloudUrlHolder.url = arCloudURL
+        result.success(null)
     }
 
     private fun onGetEffectsCall(result: MethodChannel.Result) {

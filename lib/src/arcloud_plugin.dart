@@ -14,8 +14,10 @@ class BanubaArcloudPlugin {
   static const _methodGetEffects = 'get_effects';
   static const _methodDownloadEffect = 'download_effect';
   static const _methodEffectsLoaded = 'effects_loaded';
+  static const _methodSetArCloudUrl = 'ar_cloud_url';
 
   static const _paramEffectName = 'effect_name';
+  static const _paramArCloudUrlName = 'arCloudUrl';
 
   static const _errorCodeGetEffects = 'error_get_effects';
 
@@ -28,12 +30,18 @@ class BanubaArcloudPlugin {
 
   BanubaArcloudPlugin._internal();
 
-  Future<void> init() async {
+  Future<void> init({required String arCloudUrl}) async {
     _channel.setMethodCallHandler(_handleMethod);
+    await _setArCloudUrl(arCloudUrl);
   }
 
   Future<void> dispose() async {
     _effectsStreamController.close();
+  }
+
+  Future<void> _setArCloudUrl(String url) async {
+    final params = {_paramArCloudUrlName: url};
+    await _channel.invokeMethod(_methodSetArCloudUrl, params);
   }
 
   Stream<List<ArEffect>> getEffectsStream() => _effectsStreamController.stream;

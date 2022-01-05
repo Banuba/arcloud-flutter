@@ -10,10 +10,12 @@ enum Method: String {
     case getEffects = "get_effects"
     case downloadEffect = "download_effect"
     case effectLoaded = "effects_loaded"
+    case arCloudURL = "ar_cloud_url"
 }
 
 enum Param: String {
     case effectName = "effect_name"
+    case arCloudUrlName = "arCloudUrl"
 }
 
 enum ErrorCode: String {
@@ -38,7 +40,6 @@ public class ARCloudPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
         let arCloudPlugin = ARCloudPlugin()
         
-        arCloudPlugin.banubaARCloud = BanubaARCloud(arCloudUrl: arCloudPlugin.delegate.arCloudURL)
         arCloudPlugin.channel = FlutterMethodChannel(name: Channel.name.rawValue, binaryMessenger: registrar.messenger())
         
         registrar.addMethodCallDelegate(arCloudPlugin, channel: arCloudPlugin.channel!)
@@ -50,8 +51,24 @@ public class ARCloudPlugin: NSObject, FlutterPlugin {
             onGetEffectsCall(call, result)
         case Method.downloadEffect.rawValue:
             onDownloadEffectCall(call, result)
+        case Method.arCloudURL.rawValue:
+            onArCloudUrlCall(call, result)
         default:
             result(FlutterMethodNotImplemented)
+        }
+    }
+
+    
+
+    private func onArCloudUrlCall(_ call: FlutterMethodCall,_ result: @escaping FlutterResult) {
+        concurrentQueue.async {
+            do {
+                let arCloudURL: String = try call.obtainArgument(Param.arCloudUrlName.rawValue)
+                self.banubaARCloud = BanubaARCloud(arCloudUrl: arCloudURL)
+                result(nil)
+            } catch {
+                self.handleResultError(result, ErrorCode.downloadEffect.rawValue, "Unknown error.")
+            }
         }
     }
     
