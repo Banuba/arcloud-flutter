@@ -6,7 +6,7 @@ import com.banuba.sdk.arcloud.data.source.model.ArEffect
 import com.banuba.sdk.arcloud.data.source.model.EffectsLoadingResult
 import com.google.gson.Gson
 import com.google.gson.JsonIOException
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -54,7 +54,7 @@ class FlutterARCloudPlugin : FlutterPlugin, ActivityAware, KoinComponent {
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-        observeEffects(binding.activity as FlutterActivity)
+        observeEffects(binding.activity as FlutterFragmentActivity)
     }
 
     override fun onDetachedFromActivity() {
