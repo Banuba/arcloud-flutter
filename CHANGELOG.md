@@ -12,3 +12,6 @@
 * Refactor arCloudUrl init into flutter module
 * Readme update
 * Example app fix
+
+## 0.0.4
+* update BanubaARCloudSDK.framework to version 1.22.0
