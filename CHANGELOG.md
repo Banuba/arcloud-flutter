@@ -15,3 +15,6 @@
 
 ## 0.0.4
 * update BanubaARCloudSDK.framework to version 1.22.0
+
+## 0.0.5
+* update Android Arcloud SDK to version 0.21.0-dev
