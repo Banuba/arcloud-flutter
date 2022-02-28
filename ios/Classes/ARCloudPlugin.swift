@@ -74,10 +74,11 @@ public class ARCloudPlugin: NSObject, FlutterPlugin {
     
     private func onGetEffectsCall(_ call: FlutterMethodCall,_ result: @escaping FlutterResult) {
         fetchAREffects(completion: { (effects, error) in
-            if (error != nil) {
-                self.handleResultError(result, ErrorCode.getEffects.rawValue, error?.errorMessage)
+            if (let error = error) {
+                self.handleResultError(result, ErrorCode.getEffects.rawValue, error.errorMessage)
             }
-            if (effects != nil) {
+            if (let effects = effects) {
+                self.effectsList = effects
                 let wrappedEffects = self.effectsList.map(ArEffectMapper().map)
                 let effectsJsonString = ArEffectsJsonEncoder().encode(from: wrappedEffects)
                 result(effectsJsonString)
@@ -147,8 +148,7 @@ public class ARCloudPlugin: NSObject, FlutterPlugin {
     
     private func fetchAREffects(completion: @escaping ([AREffect]?, NSError?) -> Void) {
         concurrentQueue.async {
-            self.banubaARCloud?.getAREffects {(effectsArray, error) in
-                self.effectsList = effectsArray!
+            self.banubaARCloud?.getAREffects { (effectsArray, error) in
                 DispatchQueue.main.async {
                     completion(self.effectsList, error)
                 }
