@@ -74,10 +74,10 @@ public class ARCloudPlugin: NSObject, FlutterPlugin {
     
     private func onGetEffectsCall(_ call: FlutterMethodCall,_ result: @escaping FlutterResult) {
         fetchAREffects(completion: { (effects, error) in
-            if (let error = error) {
+            if let error = error {
                 self.handleResultError(result, ErrorCode.getEffects.rawValue, error.errorMessage)
             }
-            if (let effects = effects) {
+            if let effects = effects {
                 self.effectsList = effects
                 let wrappedEffects = self.effectsList.map(ArEffectMapper().map)
                 let effectsJsonString = ArEffectsJsonEncoder().encode(from: wrappedEffects)
