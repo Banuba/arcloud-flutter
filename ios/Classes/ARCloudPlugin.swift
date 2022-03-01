@@ -150,7 +150,7 @@ public class ARCloudPlugin: NSObject, FlutterPlugin {
         concurrentQueue.async {
             self.banubaARCloud?.getAREffects { (effectsArray, error) in
                 DispatchQueue.main.async {
-                    completion(self.effectsList, error)
+                    completion(effectsArray, error)
                 }
             }
         }
