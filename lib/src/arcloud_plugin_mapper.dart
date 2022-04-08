@@ -41,7 +41,7 @@ ArEffect _mapArEffect(Map<String, dynamic> map) {
     map['id'],
     map['name'],
     map['preview'],
-    map['typeId'],
+    map['type'],
     map['uri'],
     map['isDownloaded'] ?? !isNetworkUri(map['uri']),
   );

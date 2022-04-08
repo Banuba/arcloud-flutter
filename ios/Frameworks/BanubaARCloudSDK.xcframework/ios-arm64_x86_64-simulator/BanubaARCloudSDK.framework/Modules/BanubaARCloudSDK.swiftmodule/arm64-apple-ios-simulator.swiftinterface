@@ -13,6 +13,7 @@ import _Concurrency
   @objc var downloadLink: Foundation.URL { get }
   @objc var isDownloaded: Swift.Bool { get }
   @objc var localURL: Foundation.URL? { get set }
+  @objc var type: Swift.String { get }
 }
 public typealias DownloadEffectRequestId = Swift.UInt
 extension Swift.UInt {

@@ -6,7 +6,7 @@ internal struct ArEffectWrapper: Hashable, Encodable {
     public var id: Int
     public var name: String
     public var preview: String
-    public var typeId: Int?
+    public var type: String?
     public var uri: String
     public var isDownloaded: Bool
     
@@ -16,7 +16,7 @@ internal struct ArEffectWrapper: Hashable, Encodable {
         case id
         case name
         case preview
-        case typeId
+        case type
         case uri
         case isDownloaded
     }
@@ -28,7 +28,7 @@ internal struct ArEffectWrapper: Hashable, Encodable {
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encode(preview, forKey: .preview)
-        try container.encode(typeId, forKey: .typeId)
+        try container.encode(type, forKey: .type)
         try container.encode(uri, forKey: .uri)
         try container.encode(isDownloaded, forKey: .isDownloaded)
     }

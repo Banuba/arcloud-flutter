@@ -80,7 +80,7 @@ class EffectTile extends StatelessWidget {
               const SizedBox(height: 10),
               Text('preview: ${effect.preview}'),
               const SizedBox(height: 10),
-              Text('typeId: ${effect.typeId}'),
+              Text('type: ${effect.type}'),
               const SizedBox(height: 10),
               Text('uri: ${effect.uri}'),
             ],

@@ -9,7 +9,7 @@ internal class ArEffectMapper {
             id: effect.title.hash,
             name: effect.title,
             preview: effect.isDownloaded ? "\(effect.localURL?.path ?? "")/preview.png" : effect.previewImage.absoluteString,
-            typeId: nil,
+            type: effect.type,
             uri: effect.isDownloaded ? effect.localURL?.path ?? "" : effect.downloadLink.path,
             isDownloaded: effect.isDownloaded
         )

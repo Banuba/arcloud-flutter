@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _arcloudPlugin.init(
       arCloudUrl:
-          'https://api.staging.arcloud.banuba.net/v1/effects/qa_2e944a7f-d229-4abc-85e8-57afe4d6406a',
+          'https://api.staging.arcloud.banuba.net/v1/effects/qa_whoosh_with_type',
     );
   }
 
@@ -55,7 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+      bottom: true,
+      child: Scaffold(
       body: Column(
         children: [
           Expanded(
@@ -77,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
+     )
     );
   }
 

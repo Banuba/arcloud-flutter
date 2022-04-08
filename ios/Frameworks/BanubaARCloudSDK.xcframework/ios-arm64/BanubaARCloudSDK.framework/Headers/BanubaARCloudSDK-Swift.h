@@ -219,6 +219,7 @@ SWIFT_PROTOCOL("_TtP16BanubaARCloudSDK8AREffect_")
 @property (nonatomic, readonly) BOOL isDownloaded;
 /// Do not store localURL. It may be different after relaunching the app.
 @property (nonatomic, copy) NSURL * _Nullable localURL;
+@property (nonatomic, readonly, copy) NSString * _Nonnull type;
 @end
 
 @class NSError;

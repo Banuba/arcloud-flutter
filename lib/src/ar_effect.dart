@@ -5,7 +5,7 @@ class ArEffect {
     this.id,
     this.name,
     this.preview,
-    this.typeId,
+    this.type,
     this.uri,
     this.isDownloaded,
   );
@@ -15,13 +15,13 @@ class ArEffect {
   final int id;
   final String name;
   final String? preview;
-  final int? typeId;
+  final String? type;
   final String uri;
   final bool isDownloaded;
 
   @override
   String toString() {
-    return 'ArEffect(isDefault: $isDefault, eTag: $eTag, id: $id, name: $name, preview: $preview, typeId: $typeId, uri: $uri, isDownloaded: $isDownloaded)';
+    return 'ArEffect(isDefault: $isDefault, eTag: $eTag, id: $id, name: $name, preview: $preview, type: $type, uri: $uri, isDownloaded: $isDownloaded)';
   }
 
   @override
@@ -34,7 +34,7 @@ class ArEffect {
         other.id == id &&
         other.name == name &&
         other.preview == preview &&
-        other.typeId == typeId &&
+        other.type == type &&
         other.uri == uri &&
         other.isDownloaded == isDownloaded;
   }
@@ -46,7 +46,7 @@ class ArEffect {
         id.hashCode ^
         name.hashCode ^
         preview.hashCode ^
-        typeId.hashCode ^
+        type.hashCode ^
         uri.hashCode ^
         isDownloaded.hashCode;
   }
