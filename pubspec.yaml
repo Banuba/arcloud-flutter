@@ -1,11 +1,10 @@
 name: banuba_arcloud
 description: Banuba plugin for ARCloud.
-version: 0.0.5
+version: 0.0.6
 homepage: 'https://docs.banuba.com/'
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=1.12.13+hotfix.5"
+  sdk: ">=2.16.0 <3.0.0"
 
 dependencies:
   flutter:

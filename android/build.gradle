@@ -7,7 +7,7 @@ buildscript {
         kotlinVersion = '1.5.21'
         coroutinesVersion = '1.5.0'
         koinVersion = '2.2.2'
-        banubaSdkVersion = '0.21.0-dev'
+        banubaSdkVersion = '1.22.1'
     }
     repositories {
         google()
