@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
+// swift-compiler-version: Apple Swift version 5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)
 // swift-module-flags: -target arm64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name BanubaARCloudSDK
 @_exported import BanubaARCloudSDK
 import BanubaUtilities
@@ -13,7 +13,7 @@ import _Concurrency
   @objc var downloadLink: Foundation.URL { get }
   @objc var isDownloaded: Swift.Bool { get }
   @objc var localURL: Foundation.URL? { get set }
-  @objc var type: Swift.String { get }
+  @objc var type: Swift.String? { get }
 }
 public typealias DownloadEffectRequestId = Swift.UInt
 extension Swift.UInt {
@@ -25,7 +25,7 @@ extension Swift.UInt {
   @objc public static var effectsFolderURL: Foundation.URL {
     @objc get
   }
-  @objc required public init(arCloudUrl: Swift.String)
+  @objc required public init(arCloudUrl: Swift.String, embeddedEffectURLs: [Foundation.URL]? = nil)
   @objc public func getAREffects(completion: @escaping ([BanubaARCloudSDK.AREffect]?, Foundation.NSError?) -> Swift.Void)
   @objc public func getArEffectPreview(_ effect: BanubaARCloudSDK.AREffect, completion: @escaping (UIKit.UIImage?, Foundation.NSError?) -> Swift.Void)
   @discardableResult
