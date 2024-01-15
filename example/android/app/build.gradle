@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -49,7 +49,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.banuba.sdk.arcloud.example"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -83,6 +83,5 @@ dependencies {
     implementation "io.insert-koin:koin-android:$koinVersion"
 
     // Banuba SDK dependencies
-    compileOnly fileTree(dir: '../libs', include: ['*.aar'])
-    implementation 'com.banuba.sdk:ar-cloud:1.19.0'
+    implementation 'com.banuba.sdk:ar-cloud:1.23.0'
 }

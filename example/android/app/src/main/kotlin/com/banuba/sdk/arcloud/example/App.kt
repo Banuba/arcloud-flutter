@@ -9,12 +9,9 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         startKoin {
             androidContext(this@App)
-            modules(
-                FlutterArCloudKoinModule().modules.plus(MainKoinModule().module),
-            )
+            modules(FlutterArCloudKoinModule().modules)
         }
     }
 }

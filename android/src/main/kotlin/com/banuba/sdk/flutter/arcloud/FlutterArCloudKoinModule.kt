@@ -9,14 +9,14 @@ import org.koin.dsl.module
 class FlutterArCloudKoinModule {
 
     private val flutterArCloudModule: Module = module {
-        single(createdAtStart = true, override = true) {
+        single(createdAtStart = true) {
             ArEffectsRepositoryProvider(
                 arEffectsRepository = get(named("backendArEffectsRepository")),
                 ioDispatcher = get(named("ioDispatcher"))
             ).provide()
         }
         
-        single(named("arEffectsCloudUrl"), override = true) {
+        single(named("arEffectsCloudUrl")) {
             ArCloudUrlHolder.url
         }   
     }

@@ -14,11 +14,9 @@ import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.*
-import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.inject
 import org.koin.core.component.KoinComponent
 
-@KoinApiExtension
 class FlutterARCloudPlugin : FlutterPlugin, ActivityAware, KoinComponent {
     companion object {
         private const val CHANNEL_NAME = "com.banuba.sdk.flutter.arcloud"
