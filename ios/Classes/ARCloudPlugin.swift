@@ -58,8 +58,6 @@ public class ARCloudPlugin: NSObject, FlutterPlugin {
         }
     }
 
-    
-
     private func onArCloudUrlCall(_ call: FlutterMethodCall,_ result: @escaping FlutterResult) {
         concurrentQueue.async {
             do {
