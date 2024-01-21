@@ -6,7 +6,9 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-class FlutterArCloudKoinModule {
+object FlutterKoinModule {
+
+    var url: String = ""
 
     private val flutterArCloudModule: Module = module {
         single(createdAtStart = true) {
@@ -17,7 +19,7 @@ class FlutterArCloudKoinModule {
         }
         
         single(named("arEffectsCloudUrl")) {
-            ArCloudUrlHolder.url
+            url
         }   
     }
 

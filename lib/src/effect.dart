@@ -1,5 +1,5 @@
-class ArEffect {
-  const ArEffect(
+class Effect {
+  const Effect(
     this.isDefault,
     this.eTag,
     this.id,
@@ -21,14 +21,14 @@ class ArEffect {
 
   @override
   String toString() {
-    return 'ArEffect(isDefault: $isDefault, eTag: $eTag, id: $id, name: $name, preview: $preview, type: $type, uri: $uri, isDownloaded: $isDownloaded)';
+    return 'Effect(isDefault: $isDefault, eTag: $eTag, id: $id, name: $name, preview: $preview, type: $type, uri: $uri, isDownloaded: $isDownloaded)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is ArEffect &&
+    return other is Effect &&
         other.isDefault == isDefault &&
         other.eTag == eTag &&
         other.id == id &&

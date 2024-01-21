@@ -1,14 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:banuba_arcloud/src/ar_effect.dart';
+import 'package:banuba_arcloud/src/effect.dart';
 import 'package:banuba_arcloud/src/exceptions.dart';
 import 'package:banuba_arcloud/src/network_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 part 'arcloud_plugin_mapper.dart';
 
-class BanubaArcloudPlugin {
+class BanubaARCloudPlugin {
+  static const _tag = 'ARCloudPlugin';
   static const _channelName = 'com.banuba.sdk.flutter.arcloud';
 
   static const _methodGetEffects = 'get_effects';
@@ -21,77 +23,81 @@ class BanubaArcloudPlugin {
 
   static const _errorCodeGetEffects = 'error_get_effects';
 
-  static final BanubaArcloudPlugin _plugin = BanubaArcloudPlugin._internal();
+  static final BanubaARCloudPlugin _plugin = BanubaARCloudPlugin._internal();
 
   final _channel = const MethodChannel(_channelName);
-  final _effectsStreamController = StreamController<List<ArEffect>>();
+  final _effectsStreamController = StreamController<List<Effect>>();
 
-  factory BanubaArcloudPlugin() => _plugin;
+  factory BanubaARCloudPlugin() => _plugin;
 
-  BanubaArcloudPlugin._internal();
+  BanubaARCloudPlugin._internal();
 
   Future<void> init({required String arCloudUrl}) async {
-    _channel.setMethodCallHandler(_handleMethod);
-    await _setArCloudUrl(arCloudUrl);
+    debugPrint('$_tag: init = $arCloudUrl');
+    _channel.setMethodCallHandler(_handlePlatformMethodCall);
+
+    final params = {_paramArCloudUrlName: arCloudUrl};
+    await _channel.invokeMethod(_methodSetArCloudUrl, params);
   }
 
   Future<void> dispose() async {
     _effectsStreamController.close();
   }
 
-  Future<void> _setArCloudUrl(String url) async {
-    final params = {_paramArCloudUrlName: url};
-    await _channel.invokeMethod(_methodSetArCloudUrl, params);
-  }
+  Stream<List<Effect>> getEffectsStream() => _effectsStreamController.stream;
 
-  Stream<List<ArEffect>> getEffectsStream() => _effectsStreamController.stream;
-
-  Future<List<ArEffect>> getEffects() async {
+  Future<void> loadEffects() async {
     try {
+      debugPrint('$_tag: load effects');
       final effectsJson = await _channel.invokeMethod(_methodGetEffects);
-      final effects = _mapArEffectsJson(effectsJson as String);
-      return effects;
+      debugPrint('$_tag: effects loaded = $effectsJson');
+      _mapEffectsJson(effectsJson as String);
+      return Future(() => null);
     } on PlatformException catch (e) {
+      debugPrint('$_tag: failed to load effects = $e');
       if (e.code == _errorCodeGetEffects) {
-        throw ArcloudEffectsLoadingException('${e.message}');
+        _effectsStreamController.addError(ARCloudLoadEffectsException('${e.message}'));
       } else {
-        throw ArcloudUnknownException('${e.code}: ${e.message}');
+        _effectsStreamController.addError(ARCloudUnknownException('${e.code}: ${e.message}'));
       }
     }
   }
 
-  Future<ArEffect> downloadEffect(String effectName) async {
+  Future<Effect> downloadEffect(String effectName) async {
     try {
+      debugPrint('$_tag: download effect = $effectName');
       final params = {
         _paramEffectName: effectName,
       };
       final effectJson = await _channel.invokeMethod(_methodDownloadEffect, params);
-      final effect = _mapArEffectJson(effectJson as String);
-      return effect;
+      return _mapEffectJson(effectJson as String);
     } on PlatformException catch (e) {
+      debugPrint('$_tag: failed to download effect = $effectName, error = $e');
       if (e.code == _errorCodeDownloadEffect) {
-        throw ArcloudEffectDownloadingException('Effect: $effectName. ${e.message}');
+        throw ARCloudDownloadEffectException('Effect: $effectName. ${e.message}');
       } else {
-        throw ArcloudUnknownException('${e.code}: ${e.message}');
+        throw ARCloudUnknownException('${e.code}: ${e.message}');
       }
     } on FormatException catch (e) {
-      throw ArcloudEffectDownloadingException('Parsing error. Effect: $effectName. $e');
+      throw ARCloudDownloadEffectException('Parsing error. Effect: $effectName. $e');
     }
   }
 
-  Future<dynamic> _handleMethod(MethodCall call) async {
+  Future<dynamic> _handlePlatformMethodCall(MethodCall call) async {
     switch (call.method) {
       case _methodEffectsLoaded:
-        _handleEffectsLoadedMethod(call);
+        _handleLoadedEffects(call);
         break;
       default:
         throw MissingPluginException();
     }
   }
 
-  void _handleEffectsLoadedMethod(MethodCall call) {
+  void _handleLoadedEffects(MethodCall call) {
     try {
-      final effects = _mapArEffectsWrapperJson(call.arguments as String);
+      final data = call.arguments as String;
+      debugPrint('$_tag: handle loaded effects = $data');
+      final effects = _mapEffectsWrapperJson(data);
       _effectsStreamController.add(effects);
     } on Exception catch (e) {
       _effectsStreamController.addError(e);

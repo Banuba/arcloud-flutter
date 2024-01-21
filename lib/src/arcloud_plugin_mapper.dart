@@ -2,47 +2,42 @@ part of 'arcloud_plugin.dart';
 
 const _errorCodeDownloadEffect = 'error_download_effect';
 
-List<ArEffect> _mapArEffectsWrapperJson(String jsonString) {
+List<Effect> _mapEffectsWrapperJson(String jsonString) {
   final effectsJson = json.decode(jsonString) as Map<String, dynamic>;
   final errorCode = effectsJson["errorCode"] as String?;
   if (errorCode == null) {
     final effectsListJson = effectsJson["effects"] as List<dynamic>;
-    return _mapArEffectsList(effectsListJson);
+    return _mapEffectsList(effectsListJson);
   } else {
     switch (errorCode) {
       case _errorCodeDownloadEffect:
-        throw const ArcloudEffectsLoadingException();
+        throw const ARCloudLoadEffectsException();
       default:
-        throw const ArcloudUnknownException('Failed to load effects');
+        throw const ARCloudUnknownException('Failed to load effects');
     }
   }
 }
 
-List<ArEffect> _mapArEffectsJson(String jsonString) {
+List<Effect> _mapEffectsJson(String jsonString) {
   final effectsJson = json.decode(jsonString) as List<dynamic>;
-  return _mapArEffectsList(effectsJson);
+  return _mapEffectsList(effectsJson);
 }
 
-ArEffect _mapArEffectJson(String jsonString) {
+Effect _mapEffectJson(String jsonString) {
   final effectJson = json.decode(jsonString) as Map<String, dynamic>;
-  final effect = _mapArEffect(effectJson);
-  return effect;
+  return _mapEffect(effectJson);
 }
 
-List<ArEffect> _mapArEffectsList(List<dynamic> effectsJson) {
-  final effects = effectsJson.cast<Map<String, dynamic>>().map<ArEffect>(_mapArEffect).toList();
-  return effects;
-}
+List<Effect> _mapEffectsList(List<dynamic> effectsJson) =>
+    effectsJson.cast<Map<String, dynamic>>().map<Effect>(_mapEffect).toList();
 
-ArEffect _mapArEffect(Map<String, dynamic> map) {
-  return ArEffect(
-    map['default'],
-    map['eTag'],
-    map['id'],
-    map['name'],
-    map['preview'],
-    map['type'] ?? map['arType'],
-    map['uri'],
-    map['isDownloaded'] ?? !isNetworkUri(map['uri']),
-  );
-}
+Effect _mapEffect(Map<String, dynamic> map) => Effect(
+      map['default'],
+      map['eTag'],
+      map['id'],
+      map['name'],
+      map['preview'],
+      map['type'] ?? map['arType'],
+      map['uri'],
+      map['isDownloaded'] ?? !isNetworkUri(map['uri']),
+    );

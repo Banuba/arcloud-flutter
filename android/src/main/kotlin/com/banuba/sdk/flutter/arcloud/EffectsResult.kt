@@ -2,7 +2,7 @@ package com.banuba.sdk.flutter.arcloud
 
 import com.banuba.sdk.arcloud.data.source.model.ArEffect
 
-data class ArEffectsJsonWrapper(
+data class EffectsResult(
     val errorCode: String?,
     val effects: List<ArEffect>?
 ) {
