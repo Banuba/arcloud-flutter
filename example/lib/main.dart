@@ -5,7 +5,7 @@ import 'package:banuba_arcloud_example/effect_tile.dart';
 import 'package:banuba_arcloud_example/effect_wrapper.dart';
 import 'package:flutter/material.dart';
 
-const arCloudUrl = 'https://api.staging.arcloud.banuba.net/v1/effects/qa_whoosh_with_type';
+const arCloudUrl = // SET UP BANUBA AR CLOUD URL;
 
 const _tag = 'ARCloudSample';
 
