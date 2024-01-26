@@ -1,5 +1,5 @@
-abstract class BaseArcloudException implements Exception {
-  const BaseArcloudException([this._message]);
+abstract class BaseARCloudException implements Exception {
+  const BaseARCloudException([this._message]);
 
   final String? _message;
 
@@ -9,14 +9,14 @@ abstract class BaseArcloudException implements Exception {
   }
 }
 
-class ArcloudEffectsLoadingException extends BaseArcloudException {
-  const ArcloudEffectsLoadingException([String? message]) : super(message);
+class ARCloudLoadEffectsException extends BaseARCloudException {
+  const ARCloudLoadEffectsException([String? message]) : super(message);
 }
 
-class ArcloudEffectDownloadingException extends BaseArcloudException {
-  const ArcloudEffectDownloadingException([String? message]) : super(message);
+class ARCloudDownloadEffectException extends BaseARCloudException {
+  const ARCloudDownloadEffectException([String? message]) : super(message);
 }
 
-class ArcloudUnknownException extends BaseArcloudException {
-  const ArcloudUnknownException([String? message]) : super(message);
+class ARCloudUnknownException extends BaseARCloudException {
+  const ARCloudUnknownException([String? message]) : super(message);
 }

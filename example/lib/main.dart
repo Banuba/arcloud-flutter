@@ -5,6 +5,10 @@ import 'package:banuba_arcloud_example/effect_tile.dart';
 import 'package:banuba_arcloud_example/effect_wrapper.dart';
 import 'package:flutter/material.dart';
 
+const arCloudUrl = // SET UP BANUBA AR CLOUD URL;
+
+const _tag = 'ARCloudSample';
+
 void main() {
   runApp(const MyApp());
 }
@@ -31,7 +35,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _arcloudPlugin = BanubaArcloudPlugin();
+  final _plugin = BanubaARCloudPlugin();
   final _effects = <EffectWrapper>[];
   final _downloadingEffects = <String>[];
   late StreamSubscription<void> _effectsStreamSubscription;
@@ -40,81 +44,70 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     _listenEffects();
     super.initState();
-    _arcloudPlugin.init(
-      arCloudUrl:
-          'https://api.staging.arcloud.banuba.net/v1/effects/qa_whoosh_with_type',
+    _plugin.init(
+      arCloudUrl: arCloudUrl,
     );
   }
 
   @override
   void dispose() {
     _effectsStreamSubscription.cancel();
-    _arcloudPlugin.dispose();
+    _plugin.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      bottom: true,
-      child: Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: _effects.length,
-              itemBuilder: (context, index) {
-                final effectWrapper = _effects[index];
-                return EffectTile(
-                  key: ValueKey<String>(effectWrapper.effect.name),
-                  effectWrapper: effectWrapper,
-                  onEffectTap: _onEffectTap,
-                );
-              },
-            ),
+        bottom: true,
+        child: Scaffold(
+          body: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _effects.length,
+                  itemBuilder: (context, index) {
+                    final effectWrapper = _effects[index];
+                    return EffectTile(
+                      key: ValueKey<String>(effectWrapper.effect.name),
+                      effectWrapper: effectWrapper,
+                      onEffectTap: _onEffectTap,
+                    );
+                  },
+                ),
+              ),
+              ElevatedButton(
+                onPressed: _loadEffects,
+                child: const Text('Load effects'),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: _loadEffects,
-            child: const Text('Load effects'),
-          ),
-        ],
-      ),
-     )
-    );
+        ));
   }
 
   void _listenEffects() {
-    _effectsStreamSubscription = _arcloudPlugin.getEffectsStream().listen(
+    _effectsStreamSubscription = _plugin.getEffectsStream().listen(
           _onEffectsLoaded,
           onError: (e) => _showMessage(e.toString()),
         );
   }
 
   Future<void> _loadEffects() async {
-    try {
-      final effects = await _arcloudPlugin.getEffects();
-      _onEffectsLoaded(effects);
-    } on ArcloudEffectsLoadingException catch (e) {
-      _showMessage(e.toString());
-    } on ArcloudUnknownException catch (e) {
-      _showMessage(e.toString());
-    }
+    await _plugin.loadEffects();
   }
 
-  void _onEffectsLoaded(List<ArEffect> effects) {
+  void _onEffectsLoaded(List<Effect> effects) {
     setState(() {
+      debugPrint("$_tag effects loaded = $_effects");
       final _wrappedEffects = effects.map(_wrapEffect).toList();
       _effects.clear();
       _effects.addAll(_wrappedEffects);
     });
   }
 
-  EffectWrapper _wrapEffect(ArEffect effect) {
-    final status = _getArEffectStatus(effect);
-    return EffectWrapper(effect, status);
-  }
+  EffectWrapper _wrapEffect(Effect effect) => EffectWrapper(effect, _detectEffectStatus(effect));
 
-  ArEffectStatus _getArEffectStatus(ArEffect effect) {
+  ArEffectStatus _detectEffectStatus(Effect effect) {
     final isDownloaded = effect.isDownloaded;
     final isDownloading = _downloadingEffects.contains(effect.name);
     final ArEffectStatus status;
@@ -128,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return status;
   }
 
-  void _onEffectTap(ArEffect effect) {
+  void _onEffectTap(Effect effect) {
     final isEffectDownloaded = effect.isDownloaded;
     if (isEffectDownloaded) {
       _selectEffect(effect);
@@ -137,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Future<void> _downloadEffect(ArEffect effect) async {
+  Future<void> _downloadEffect(Effect effect) async {
     try {
       setState(() {
         _downloadingEffects.add(effect.name);
@@ -147,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         }
       });
-      await _arcloudPlugin.downloadEffect(effect.name);
+      await _plugin.downloadEffect(effect.name);
       _showMessage('Effect ${effect.name} loaded');
       setState(() => _downloadingEffects.remove(effect.name));
     } on Exception catch (e) {
@@ -163,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void _selectEffect(ArEffect effect) {
+  void _selectEffect(Effect effect) {
     _showMessage('${effect.name} effect selected');
   }
 

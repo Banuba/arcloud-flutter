@@ -1,11 +1,12 @@
 package com.banuba.sdk.flutter.arcloud
 
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import com.banuba.sdk.arcloud.data.source.ArEffectsRepository
 import com.banuba.sdk.arcloud.data.source.model.ArEffect
 import com.banuba.sdk.arcloud.data.source.model.EffectsLoadingResult
 import com.google.gson.Gson
-import com.google.gson.JsonIOException
+
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -14,13 +15,14 @@ import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.*
-import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.inject
 import org.koin.core.component.KoinComponent
 
-@KoinApiExtension
+
 class FlutterARCloudPlugin : FlutterPlugin, ActivityAware, KoinComponent {
     companion object {
+        private const val TAG = "ARCloudAndroid"
+
         private const val CHANNEL_NAME = "com.banuba.sdk.flutter.arcloud"
 
         private const val METHOD_GET_EFFECTS = "get_effects"
@@ -77,49 +79,52 @@ class FlutterARCloudPlugin : FlutterPlugin, ActivityAware, KoinComponent {
 
     private fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         when (call.method) {
-            METHOD_GET_EFFECTS -> {
-                onGetEffectsCall(result)
-            }
-            METHOD_DOWNLOAD_EFFECT -> {
-                onDownloadEffectCall(call, result)
-            }
-            METHOD_ARCLOUD_URL -> {
-                onArCloudUrlCall(call, result)
-            }
-            else -> {
-                result.notImplemented()
-            }
+            METHOD_GET_EFFECTS -> loadEffects(result)
+            METHOD_DOWNLOAD_EFFECT -> downloadEffect(call, result)
+            METHOD_ARCLOUD_URL -> initWithUrl(call, result)
+            else -> result.notImplemented()
         }
     }
 
-    private fun onArCloudUrlCall(call: MethodCall, result: MethodChannel.Result) {
-        val arCloudURL = call.obtainArgument<String>(PARAM_ARCLOUD_URL)
-        ArCloudUrlHolder.url = arCloudURL
+    private fun initWithUrl(
+        call: MethodCall,
+        result: MethodChannel.Result
+    ) {
+        val cloudUrl = call.obtainArgument<String>(PARAM_ARCLOUD_URL)
+        Log.d(TAG, "initWithUrl = $cloudUrl")
+        FlutterKoinModule.url = cloudUrl
         result.success(null)
     }
 
-    private fun onGetEffectsCall(result: MethodChannel.Result) {
+    private fun loadEffects(result: MethodChannel.Result) {
         scope.launch {
             try {
+                Log.d(TAG, "Load effects")
                 val effectsResult = arEffectsRepository.getEffects()
                 if (effectsResult is EffectsLoadingResult.Success) {
                     replaceEffects(effectsResult.data)
                     val effectsJson = gson.toJson(effects)
                     result.success(effectsJson)
                 } else if (effectsResult is EffectsLoadingResult.Error) {
+                    Log.w(TAG, "Failed to load effects")
                     result.error(ERROR_CODE_GET_EFFECTS, effectsResult.exception.toString(), null)
                 }
-            } catch (exception: Exception) {
-                result.error(ERROR_CODE_GET_EFFECTS, exception.toString(), null)
+            } catch (e: Exception) {
+                Log.w(TAG, "Failed to load effects", e)
+                result.error(ERROR_CODE_GET_EFFECTS, e.toString(), null)
             }
         }
     }
 
 
-    private fun onDownloadEffectCall(call: MethodCall, result: MethodChannel.Result) {
+    private fun downloadEffect(
+        call: MethodCall,
+        result: MethodChannel.Result
+    ) {
         scope.launch {
             try {
                 val effectNameParam = call.obtainArgument<String>(PARAM_EFFECT_NAME)
+                Log.d(TAG, "Download effect = $effectNameParam")
                 val effect = effects.find { effect -> effect.name == effectNameParam }
                 if (effect == null) {
                     result.error(
@@ -133,6 +138,7 @@ class FlutterARCloudPlugin : FlutterPlugin, ActivityAware, KoinComponent {
                         val effectJson = gson.toJson(effectResult.data)
                         result.success(effectJson)
                     } else if (effectResult is EffectsLoadingResult.Error) {
+                        Log.w(TAG, "Failed to download effect = $effectNameParam")
                         result.error(
                             ERROR_CODE_DOWNLOAD_EFFECT,
                             "Downloading error. ${effectResult.exception}",
@@ -140,10 +146,11 @@ class FlutterARCloudPlugin : FlutterPlugin, ActivityAware, KoinComponent {
                         )
                     }
                 }
-            } catch (exception: JsonIOException) {
+            } catch (e: Exception) {
+                Log.w(TAG, "Failed to download effect", e)
                 result.error(
                     ERROR_CODE_DOWNLOAD_EFFECT,
-                    "Effects serialization error. $exception",
+                    "Effects serialization error. $e",
                     null
                 )
             }
@@ -156,11 +163,11 @@ class FlutterARCloudPlugin : FlutterPlugin, ActivityAware, KoinComponent {
                 .observe(lifecycleOwner, { result ->
                     if (result is EffectsLoadingResult.Success) {
                         replaceEffects(result.data)
-                        val effectsWrapper = ArEffectsJsonWrapper(effects)
+                        val effectsWrapper = EffectsResult(effects)
                         val effectsJson = gson.toJson(effectsWrapper)
                         channel?.invokeMethod(METHOD_EFFECTS_LOADED, effectsJson)
                     } else {
-                        val effectsWrapper = ArEffectsJsonWrapper(ERROR_CODE_DOWNLOAD_EFFECT)
+                        val effectsWrapper = EffectsResult(ERROR_CODE_DOWNLOAD_EFFECT)
                         val effectsJson = gson.toJson(effectsWrapper)
                         channel?.invokeMethod(METHOD_EFFECTS_LOADED, effectsJson)
                     }

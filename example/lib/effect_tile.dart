@@ -12,9 +12,9 @@ class EffectTile extends StatelessWidget {
   }) : super(key: key);
 
   final EffectWrapper effectWrapper;
-  final ValueChanged<ArEffect> onEffectTap;
+  final ValueChanged<Effect> onEffectTap;
 
-  ArEffect get effect => effectWrapper.effect;
+  Effect get effect => effectWrapper.effect;
 
   @override
   Widget build(BuildContext context) {

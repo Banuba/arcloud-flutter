@@ -1,10 +1,10 @@
 name: banuba_arcloud
-description: Banuba plugin for ARCloud.
-version: 0.0.7
+description: Our AR Cloud service enables your app to connect with our servers and access AR effects directly from the cloud.
+version: 1.0.0
 homepage: 'https://docs.banuba.com/'
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
+  sdk: '>=2.18.5 <3.0.0'
 
 dependencies:
   flutter:

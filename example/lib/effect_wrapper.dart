@@ -6,8 +6,13 @@ class EffectWrapper {
     this.status,
   );
 
-  ArEffect effect;
+  Effect effect;
   ArEffectStatus status;
+
+  @override
+  String toString() {
+    return 'Effect(status: $status, value: $effect)';
+  }
 }
 
 enum ArEffectStatus {

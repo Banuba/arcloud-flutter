@@ -5,14 +5,16 @@ Pod::Spec.new do |s|
     s.description      = <<-DESC
   A new flutter plugin project.
                          DESC
-    s.homepage         = 'http://example.com'
+    s.homepage         = 'https://banuba.com'
     s.license          = { :file => '../LICENSE' }
-    s.author           = { 'Your Company' => 'email@example.com' }
+    s.author           = { 'Your Company' => 'info@banuba.com' }
     s.source           = { :path => '.' }
     s.source_files = 'Classes/**/*'
     s.dependency 'Flutter'
-    s.platform = :ios, '11.0'
+    s.platform = :ios, '14.0'
     s.swift_version = '5.5.1'
-    s.static_framework = true
-    s.vendored_frameworks = 'Frameworks/*'
+
+    version = '1.32.1'
+    s.dependency 'BanubaARCloudSDK', version
+    s.dependency 'BanubaUtilities', version
   end
