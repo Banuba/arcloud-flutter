@@ -79,9 +79,4 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    implementation "io.insert-koin:koin-core:$koinVersion"
-    implementation "io.insert-koin:koin-android:$koinVersion"
-
-    // Banuba SDK dependencies
-    implementation 'com.banuba.sdk:ar-cloud:1.23.0'
 }

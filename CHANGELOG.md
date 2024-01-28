@@ -18,3 +18,13 @@
 
 ## 0.0.5
 * update Android Arcloud SDK to version 0.21.0-dev
+
+## 1.0.0
+* Prepare plugin for public release
+
+## 1.0.1
+* Fix integration issues on Android.
+* Update the doc.
+
+## 1.0.2
+* Fix bugs

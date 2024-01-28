@@ -63,8 +63,8 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
-    implementation "io.insert-koin:koin-core:$koinVersion"
-    implementation "io.insert-koin:koin-android:$koinVersion"
+    api "io.insert-koin:koin-core:$koinVersion"
+    api "io.insert-koin:koin-android:$koinVersion"
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation "com.banuba.sdk:ar-cloud:1.32.2"
 }

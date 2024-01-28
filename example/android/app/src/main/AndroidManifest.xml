@@ -2,7 +2,6 @@
     package="com.banuba.sdk.arcloud.example">
 
     <application
-        android:name="com.banuba.sdk.arcloud.example.App"
         android:icon="@mipmap/ic_launcher"
         android:label="Banuba ArCloud example">
         <activity

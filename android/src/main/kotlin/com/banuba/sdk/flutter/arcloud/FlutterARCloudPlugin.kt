@@ -18,6 +18,12 @@ import kotlinx.coroutines.*
 import org.koin.core.component.inject
 import org.koin.core.component.KoinComponent
 
+import com.banuba.sdk.flutter.arcloud.FlutterKoinModule
+import org.koin.core.context.startKoin
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.stopKoin
+
+
 
 class FlutterARCloudPlugin : FlutterPlugin, ActivityAware, KoinComponent {
     companion object {
@@ -48,11 +54,19 @@ class FlutterARCloudPlugin : FlutterPlugin, ActivityAware, KoinComponent {
     private var channel: MethodChannel? = null
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+        Log.d(TAG, "onAttachedToEngine")
         initChannel(binding.binaryMessenger)
+
+        startKoin {
+            androidContext(binding.getApplicationContext())
+            modules(FlutterKoinModule.modules)
+        }
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+        Log.d(TAG, "onDetachedFromEngine")
         teardownChannel()
+        stopKoin()
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
