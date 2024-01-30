@@ -44,7 +44,7 @@ extension Array where Element == AREffect {
     self.map { effect in
       ArEffectWrapper(
         isDefault: false,
-        eTag: nil,
+        eTag: "\(effect.downloadLink.hashValue)",
         id: effect.title.hash,
         name: effect.title,
         preview: effect.isDownloaded ? "\(effect.localURL?.path ?? "")/preview.png" : effect.previewImage.absoluteString,

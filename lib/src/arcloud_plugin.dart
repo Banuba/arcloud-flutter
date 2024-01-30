@@ -23,14 +23,10 @@ class BanubaARCloudPlugin {
 
   static const _errorCodeGetEffects = 'error_get_effects';
 
-  static final BanubaARCloudPlugin _plugin = BanubaARCloudPlugin._internal();
-
   final _channel = const MethodChannel(_channelName);
-  final _effectsStreamController = StreamController<List<Effect>>();
+  final _effectsStreamController = StreamController<List<Effect>>.broadcast();
 
-  factory BanubaARCloudPlugin() => _plugin;
-
-  BanubaARCloudPlugin._internal();
+  Stream<List<Effect>> getEffectsStream() => _effectsStreamController.stream;
 
   Future<void> init({required String arCloudUrl}) async {
     debugPrint('$_tag: init = $arCloudUrl');
@@ -43,8 +39,6 @@ class BanubaARCloudPlugin {
   Future<void> dispose() async {
     _effectsStreamController.close();
   }
-
-  Stream<List<Effect>> getEffectsStream() => _effectsStreamController.stream;
 
   Future<void> loadEffects() async {
     try {
