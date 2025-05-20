@@ -10,7 +10,7 @@ class Effect {
     this.isDownloaded,
   );
 
-  final bool isDefault;
+  final bool? isDefault;
   final String? eTag;
   final int id;
   final String name;
