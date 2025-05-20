@@ -5,6 +5,7 @@ import com.banuba.sdk.arcloud.di.ArCloudKoinModule
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import kotlinx.coroutines.Dispatchers
 
 object FlutterKoinModule {
 
@@ -15,12 +16,20 @@ object FlutterKoinModule {
             ArEffectsRepositoryProvider(
                 arEffectsRepository = get(named("backendArEffectsRepository")),
                 ioDispatcher = get(named("ioDispatcher"))
-            ).provide()
+            ).provide(get(named("prioritizedMasks")))
+        }
+
+        single(named("prioritizedMasks")) {
+            emptySet<String>()
         }
         
         single(named("arEffectsCloudUrl")) {
             url
-        }   
+        }
+
+        single(named("ioDispatcher")) {
+            Dispatchers.IO
+        }
     }
 
     val modules: List<Module> by lazy {

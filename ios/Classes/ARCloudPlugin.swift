@@ -29,7 +29,17 @@ public class ARCloudPlugin: NSObject, FlutterPlugin {
     subsystem: Bundle.main.bundleIdentifier ?? "",
     category: "ARCloudiOS"
   )
-  
+
+  private var arcloudEffectsFolderURL: URL {
+    let manager = FileManager.default
+    let documents = manager.urls(
+      for: .documentDirectory,
+      in: .userDomainMask
+    ).last ?? manager.temporaryDirectory
+    let effectsFolder = documents.appendingPathComponent("effects")
+    return effectsFolder
+  }
+
   private var channel: FlutterMethodChannel?
   
   private let concurrentQueue = DispatchQueue(label: "banuba_arcloud", attributes: .concurrent)
@@ -67,7 +77,10 @@ public class ARCloudPlugin: NSObject, FlutterPlugin {
     concurrentQueue.async {
       do {
         let arCloudURL: String = try call.obtainArgument(Param.arCloudUrlName.rawValue)
-        self.banubaARCloud = BanubaARCloud(arCloudUrl: arCloudURL)
+          self.banubaARCloud = BanubaARCloud(
+            arCloudUrl: arCloudURL,
+            effectsFolderURL: self.arcloudEffectsFolderURL
+          )
         Self.logger.debug("initWithUrl = \(arCloudURL)")
         result(nil)
       } catch {
