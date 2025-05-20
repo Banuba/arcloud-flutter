@@ -31,3 +31,6 @@
 
 ## 1.0.3
 * Fix plugin singleton issue.
+
+## 1.0.4
+* Support AR Cloud 1.43.0
