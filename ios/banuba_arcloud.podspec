@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'banuba_arcloud'
-    s.version          = '1.0.4'
+    s.version          = '1.0.5'
     s.summary          = 'Banuba plugin for ARCloud'
     s.description      = <<-DESC
   A new flutter plugin project.
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
     s.platform = :ios, '14.0'
     s.swift_version = '5.5.1'
 
-    version = '1.43.0'
+    version = '1.48.2'
     s.dependency 'BanubaARCloudSDK', version
     s.dependency 'BanubaUtilities', version
   end

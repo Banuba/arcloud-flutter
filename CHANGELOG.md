@@ -34,3 +34,7 @@
 
 ## 1.0.4
 * Support AR Cloud 1.43.0
+
+## 1.0.5
+* Support AR Cloud Android 1.48.5 & iOS 1.48.2
+* Fix maven dependencies
