@@ -14,8 +14,7 @@ object FlutterKoinModule {
     private val flutterArCloudModule: Module = module {
         single(createdAtStart = true) {
             ArEffectsRepositoryProvider(
-                arEffectsRepository = get(named("backendArEffectsRepository")),
-                ioDispatcher = get(named("ioDispatcher"))
+                arEffectsRepository = get(named("backendArEffectsRepository"))
             ).provide(get(named("prioritizedMasks")))
         }
 
@@ -25,10 +24,6 @@ object FlutterKoinModule {
         
         single(named("arEffectsCloudUrl")) {
             url
-        }
-
-        single(named("ioDispatcher")) {
-            Dispatchers.IO
         }
     }
 

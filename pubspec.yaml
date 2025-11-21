@@ -1,6 +1,6 @@
 name: banuba_arcloud
 description: Our AR Cloud service enables your app to connect with our servers and access AR effects directly from the cloud.
-version: 1.0.4
+version: 1.0.5
 homepage: 'https://docs.banuba.com/'
 
 environment:
