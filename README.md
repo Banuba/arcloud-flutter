@@ -4,8 +4,8 @@ AR Cloud is a client-server solution that helps to save space in your applicatio
 
 ## Requirements
 ### Android
-- `minSdkVersion 23`
-- `Kotlin 1.7.20`
+- `minSdkVersion 26`
+- `Kotlin 2.1.0`
 
 ## Installing
 
