@@ -1,7 +1,13 @@
 name: banuba_arcloud
-description: Our AR Cloud service enables your app to connect with our servers and access AR effects directly from the cloud.
+description: Banuba AR Cloud for Flutter. Load and update Banuba Face AR effects from the cloud at runtime, so apps can add or change AR effects without shipping a new build.
 version: 1.0.5
 homepage: 'https://docs.banuba.com/'
+
+topics:
+  - augmented-reality
+  - ar-effects
+  - cloud
+  - sdk
 
 environment:
   sdk: '>=2.18.5 <4.0.0'
