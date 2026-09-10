@@ -38,3 +38,6 @@
 ## 1.0.5
 * Support AR Cloud Android 1.48.5 & iOS 1.48.2
 * Fix maven dependencies
+
+## 1.0.6
+* Update package description, repository link and topics
