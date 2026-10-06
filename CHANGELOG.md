@@ -41,3 +41,6 @@
 
 ## 1.0.6
 * Update package description, repository link and topics
+
+## 1.0.7
+* Add repository link to pubspec

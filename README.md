@@ -15,7 +15,7 @@ Add `banuba_arcloud` in your ```pubspec.yaml``` file.
 dependencies:
   flutter:
     sdk: flutter
-    banuba_arcloud: ^1.0.6
+    banuba_arcloud: ^1.0.7
 ```
 
 Import in Dart code to access plugin functionalities.
