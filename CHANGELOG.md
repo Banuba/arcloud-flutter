@@ -44,3 +44,6 @@
 
 ## 1.0.7
 * Add repository link to pubspec
+
+## 1.0.8
+* Update package homepage
